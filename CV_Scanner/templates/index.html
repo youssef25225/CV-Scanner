@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Scanner - Resume Matcher</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>CV Scanner</h1>
+            <p class="subtitle">AI-Powered Resume & Job Description Matcher</p>
+        </header>
+
+        <div class="main-content">
+            <form id="scanForm" enctype="multipart/form-data">
+                <div class="form-section">
+                    <div class="upload-section">
+                        <label for="cv_file" class="upload-label">
+                            <svg class="upload-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                            </svg>
+                            <span id="fileLabel">Upload Resume (PDF)</span>
+                        </label>
+                        <input type="file" id="cv_file" name="cv_file" accept=".pdf" required>
+                    </div>
+
+                    <div class="textarea-section">
+                        <label for="job_description">Job Description</label>
+                        <textarea id="job_description" name="job_description"
+                            placeholder="Paste the job description here...&#10;&#10;Example:&#10;We are looking for a Python Developer with experience in:&#10;- Python, Flask, Django&#10;- Machine Learning, NLP&#10;- SQL, PostgreSQL&#10;- API Development"
+                            required></textarea>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        <span class="btn-text">Analyze Resume</span>
+                        <span class="loader" style="display: none;"></span>
+                    </button>
+                </div>
+            </form>
+
+            <div id="results" class="results-section" style="display: none;">
+                <div class="result-header">
+                    <h2>Analysis Results</h2>
+                </div>
+
+                <div class="score-container">
+                    <div class="score-circle">
+                        <svg class="score-svg" viewBox="0 0 200 200">
+                            <circle class="score-bg" cx="100" cy="100" r="90"></circle>
+                            <circle class="score-progress" cx="100" cy="100" r="90" id="scoreCircle"></circle>
+                        </svg>
+                        <div class="score-text">
+                            <span class="score-value" id="matchScore">0</span>
+                            <span class="score-label">Match</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalCvSkills">0</div>
+                        <div class="stat-label">CV Skills</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalJdSkills">0</div>
+                        <div class="stat-label">Required Skills</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="matchingSkillsCount">0</div>
+                        <div class="stat-label">Matching Skills</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="missingSkillsCount">0</div>
+                        <div class="stat-label">Missing Skills</div>
+                    </div>
+                </div>
+
+                <div class="skills-container">
+                    <div class="skills-box matching">
+                        <h3>Matching Skills</h3>
+                        <div id="matchingSkills" class="skills-list"></div>
+                    </div>
+                    <div class="skills-box missing">
+                        <h3>Missing Skills</h3>
+                        <div id="missingSkills" class="skills-list"></div>
+                    </div>
+                </div>
+
+                <button class="reset-btn" onclick="resetForm()">Scan Another Resume</button>
+            </div>
+
+            <div id="error" class="error-message" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+
+</html>
